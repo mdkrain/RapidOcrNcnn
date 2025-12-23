@@ -29,11 +29,11 @@ else ()
 endif ()
 
 # NCNN
-if (OCR_VULKAN STREQUAL "GPU")
-    include(${CMAKE_CURRENT_SOURCE_DIR}/ncnn-vulkan-static/NcnnWrapperConfig.cmake)
-else ()
-    include(${CMAKE_CURRENT_SOURCE_DIR}/ncnn-static/NcnnWrapperConfig.cmake)
-endif ()
+# if (OCR_VULKAN STREQUAL "GPU")
+#     include(${CMAKE_CURRENT_SOURCE_DIR}/ncnn-vulkan-static/NcnnWrapperConfig.cmake)
+# else ()
+#     include(${CMAKE_CURRENT_SOURCE_DIR}/ncnn-static/NcnnWrapperConfig.cmake)
+# endif ()
 find_package(ncnn REQUIRED)
 if (ncnn_FOUND)
     message(STATUS "ncnn Found!")
@@ -43,7 +43,7 @@ endif (ncnn_FOUND)
 
 # OpenCV
 set(BUILD_SHARED_LIBS false)
-include(${CMAKE_CURRENT_SOURCE_DIR}/opencv-static/OpenCVWrapperConfig.cmake)
+# include(${CMAKE_CURRENT_SOURCE_DIR}/opencv-static/OpenCVWrapperConfig.cmake)
 find_package(OpenCV REQUIRED)
 if (OpenCV_FOUND)
     message(STATUS "OpenCV_LIBS: ${OpenCV_LIBS}")
@@ -77,7 +77,7 @@ if (OCR_OUTPUT STREQUAL "JNI") # JNI
     target_compile_definitions(RapidOcrNcnn PRIVATE __JNI__)
     target_link_libraries(RapidOcrNcnn ncnn ${OpenCV_LIBS} ${JNI_LIBS})
 elseif (OCR_OUTPUT STREQUAL "CLIB") # CLIB
-    add_library(RapidOcrNcnn SHARED ${OCR_COMPILE_CODE})
+    add_library(RapidOcrNcnn STATIC ${OCR_COMPILE_CODE})
     target_compile_definitions(RapidOcrNcnn PRIVATE __CLIB__)
     target_link_libraries(RapidOcrNcnn ncnn ${OpenCV_LIBS})
 elseif (OCR_OUTPUT STREQUAL "BIN") # BIN
